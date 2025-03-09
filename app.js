@@ -10,21 +10,25 @@ const stopButton = document.querySelector('.stopwatch__stop');
 const resetButton = document.querySelector('.stopwatch__reset');
 
 
+
 function startTimer() {
     startButton.disabled = true;
     stopButton.disabled = false;
     resetButton.disabled = false;
   startTime = Date.now();
-  cancelId = requestAnimationFrame(updateTimer);
+
+  cancelId = setInterval(updateTimer, 1000 / 60);
 }
 
 function stopTimer() {
     startButton.disabled = false;
     stopButton.disabled = true;
     resetButton.disabled = false;
-    
+
   savedTime += Date.now() - startTime;
-  cancelAnimationFrame(cancelId);
+
+  clearInterval(cancelId);
+  
 }
 
 function resetTimer() {
@@ -43,7 +47,7 @@ function updateTimer() {
 
   if (millisLeft < 0) {
     millisLeft = 0;
-    cancelAnimationFrame(cancelId);
+    clearInterval(cancelId);
     cancelId = null;
     }
 
@@ -70,7 +74,7 @@ function updateTimer() {
   timerSeconds.innerHTML = secondsText;
   timerMinutes.innerHTML = minutesText;
 
-  if (cancelId) {
+  /*if (cancelId) {
     cancelId = requestAnimationFrame(updateTimer);
-  }
+  } */
 }
